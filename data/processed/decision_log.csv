@@ -1,0 +1,5 @@
+decision_id,cr_id,action,approver,reason,decision_timestamp,supplier,supplier_item_code,proposed_sku,cr_type
+DEC-0763CADF4B,CR-001,approve,master-data-lead@example.com,Supplier re-pack confirmed by procurement; apply 12kg case from 2026-09-01,2026-10-01T09:00:00+00:00,SUP-NORTHFROST,NF-BER-10,SKU-FZN-BER-001,repack
+DEC-BB2B1C3E49,CR-002,approve,master-data-lead@example.com,Legacy supplier contract ended; retire mapping LF-BER-OLD,2026-10-01T09:30:00+00:00,LEGACY-FROST,LF-BER-OLD,SKU-FZN-BER-001,retire_mapping
+DEC-BC3AFBBFF0,CR-003,reject,master-data-lead@example.com,Ambiguous code NF-AMB-01 disputed by two teams; needs supplier clarification before any change,2026-10-01T10:00:00+00:00,SUP-NORTHFROST,NF-AMB-01,SKU-FZN-BER-001,resolve_ambiguity
+DEC-111C7F827A,CR-004,approve,warehouse-supervisor@example.com,UoM conversion L->kg approved with density factor 0.95 for apple juice concentrate,2026-10-01T10:30:00+00:00,SUNCOAST-BEV,SC-JCE-20L,SKU-APL-JCE-003,unit_change
