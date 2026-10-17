@@ -1,0 +1,5 @@
+﻿cr_id,supplier,supplier_item_code,proposed_sku,cr_type,reason,requested_by,requested_date
+CR-001,SUP-NORTHFROST,NF-BER-10,SKU-FZN-BER-001,repack,supplier confirmed 12kg case from 2026-09-01,procurement@example.com,2026-08-20
+CR-002,LEGACY-FROST,LF-BER-OLD,SKU-FZN-BER-001,retire_mapping,legacy supplier contract ended 2026-07-31,procurement@example.com,2026-07-25
+CR-003,SUP-NORTHFROST,NF-AMB-01,SKU-FZN-BER-001,resolve_ambiguity,supplier says code is for blueberries; flour team disputes,master-data-team@example.com,2026-09-10
+CR-004,SUNCOAST-BEV,SC-JCE-20L,SKU-APL-JCE-003,unit_change,supplier now ships in L instead of kg — needs UoM conversion,warehouse@example.com,2026-09-05

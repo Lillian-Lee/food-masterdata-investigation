@@ -1,0 +1,9 @@
+﻿sku,product_name,category,base_uom,pack_size_pieces_per_case,data_owner
+SKU-FZN-BER-001,Frozen Blueberries 10kg,Frozen Fruit,kg,10,master-data-team@example.com
+SKU-FZN-MAN-002,Frozen Mango Chunks 5kg,Frozen Fruit,kg,5,master-data-team@example.com
+SKU-APL-JCE-003,Apple Juice Concentrate,Beverage,L,20,master-data-team@example.com
+SKU-PLS-TOM-004,Tomato Passata 3kg,Canned Goods,kg,3,master-data-team@example.com
+SKU-OIL-SUN-005,Sunflower Oil 20L,Oils,L,20,master-data-team@example.com
+SKU-FLU-WHT-006,Wheat Flour 25kg,Bakery,kg,25,master-data-team@example.com
+SKU-SGR-WHT-007,White Sugar 1kg Pack,Dry Staples,kg,1,master-data-team@example.com
+SKU-CHS-SAU-008,Cheese Sauce Base 4kg,Dairy Prep,kg,4,master-data-team@example.com
