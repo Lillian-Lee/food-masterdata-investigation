@@ -1,0 +1,18 @@
+receipt_id,receipt_date,supplier,supplier_item_code,qty_received,batch_ref,source_note,is_duplicate,resolved_sku,mapping_id,supplier_uom,pack_size_pieces_per_case,mapping_status,qty_internal_pieces,base_uom,product_pack_size,uom_match,uom_note,pack_size_changed,days_to_boundary,near_boundary
+RCV-0001,2026-09-03,SUP-NORTHFROST,NF-BER-10,120,B-0901,normal — old pack,False,SKU-FZN-BER-001,MAP-002,kg,12,resolved,120,kg,10,True,UoM consistent,True,2,True
+RCV-0002,2026-09-05,SUNCOAST-BEV,SC-JCE-20L,50,B-0903,normal,False,SKU-APL-JCE-003,MAP-004,L,20,resolved,50,L,20,True,UoM consistent,False,247,False
+RCV-0003,2026-09-07,MILLERS-DIRECT,MD-FLU-25,80,B-0905,normal,False,SKU-FLU-WHT-006,MAP-007,kg,25,resolved,80,kg,25,True,UoM consistent,False,249,False
+RCV-0004,2026-09-01,SUP-NORTHFROST,NF-BER-10,144,B-0907,post-repack effective boundary (12kg/case),False,SKU-FZN-BER-001,MAP-002,kg,12,resolved,144,kg,10,True,UoM consistent,True,0,True
+RCV-0005,2026-09-11,SUNCOAST-BEV,SC-PAS-3KG,100,B-0909,normal,False,SKU-PLS-TOM-004,MAP-005,kg,3,resolved,100,kg,3,True,UoM consistent,False,253,False
+RCV-0006,2026-09-13,SUP-NORTHFROST,NF-OIL-20L,30,B-0911,normal,False,SKU-OIL-SUN-005,MAP-006,L,20,resolved,30,L,20,True,UoM consistent,False,255,False
+RCV-0007,2026-09-15,MILLERS-DIRECT,MD-SGR-1K,400,B-0913,normal — high volume,False,SKU-SGR-WHT-007,MAP-008,kg,1,resolved,400,kg,1,True,UoM consistent,False,257,False
+RCV-0008,2026-09-17,DAIRYLAND,DL-SAU-4K,45,B-0915,normal,False,SKU-CHS-SAU-008,MAP-009,kg,4,resolved,45,kg,4,True,UoM consistent,False,259,False
+RCV-0009,2026-09-19,SUP-NORTHFROST,NF-MAN-5,60,B-0917,normal,False,SKU-FZN-MAN-002,MAP-003,kg,5,resolved,60,kg,5,True,UoM consistent,False,261,False
+RCV-0010,2026-09-21,SUP-NORTHFROST,NF-BER-10,130,B-0919,"post-repack, qty mismatch candidate",False,SKU-FZN-BER-001,MAP-002,kg,12,resolved,130,kg,10,True,UoM consistent,True,20,False
+RCV-0011,2026-09-23,SUNCOAST-BEV,SC-JCE-20L,55,B-0921,normal,False,SKU-APL-JCE-003,MAP-004,L,20,resolved,55,L,20,True,UoM consistent,False,265,False
+RCV-0013,2026-09-27,MILLERS-DIRECT,MD-FLU-25,90,B-0925,normal,False,SKU-FLU-WHT-006,MAP-007,kg,25,resolved,90,kg,25,True,UoM consistent,False,269,False
+RCV-0015,2026-09-16,SUNCOAST-BEV,SC-JCE-20L,60,B-0914,back-dated receipt (received after posting cut-off),False,SKU-APL-JCE-003,MAP-004,L,20,resolved,60,L,20,True,UoM consistent,False,258,False
+RCV-0017,2026-09-06,SUP-NORTHFROST,NF-MAN-5,55,B-0904,normal,False,SKU-FZN-MAN-002,MAP-003,kg,5,resolved,55,kg,5,True,UoM consistent,False,248,False
+RCV-0018,2026-09-10,MILLERS-DIRECT,MD-SGR-1K,380,B-0908,normal,False,SKU-SGR-WHT-007,MAP-008,kg,1,resolved,380,kg,1,True,UoM consistent,False,252,False
+RCV-0019,2026-09-12,DAIRYLAND,DL-SAU-4K,42,B-0910,normal,False,SKU-CHS-SAU-008,MAP-009,kg,4,resolved,42,kg,4,True,UoM consistent,False,254,False
+RCV-0020,2026-09-22,SUNCOAST-BEV,SC-PAS-3KG,95,B-0920,normal,False,SKU-PLS-TOM-004,MAP-005,kg,3,resolved,95,kg,3,True,UoM consistent,False,264,False

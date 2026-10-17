@@ -1,0 +1,3 @@
+receipt_id,receipt_date,supplier,supplier_item_code,qty_received,batch_ref,source_note,is_duplicate,resolved_sku,mapping_id,pack_size_pieces_per_case,mapping_status,qty_internal_pieces
+RCV-0012,2026-09-25,SUP-NORTHFROST,NF-AMB-01,25,B-0923,AMBIGUOUS — two SKUs claim this code,False,,,,ambiguous_mapping,
+RCV-0014,2026-09-29,LEGACY-FROST,LF-BER-OLD,40,B-0927,late arrival — mapping expired 2026-07-31,False,,,,expired_mapping,

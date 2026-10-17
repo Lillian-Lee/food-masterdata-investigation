@@ -1,0 +1,13 @@
+{
+  "total_receipts": 20,
+  "resolved": 18,
+  "duplicates_flagged": 1,
+  "routed_to_review": 2,
+  "ambiguous_mappings": 1,
+  "missing_mappings": 0,
+  "expired_mappings": 1,
+  "uom_mismatches": 0,
+  "near_boundary": 2,
+  "pack_size_changes": 4,
+  "clean_resolvable": 15
+}
