@@ -1,0 +1,9 @@
+movement_id,sku,movement_date,movement_type,qty_base,uom,evidence_ref
+ISS-001,SKU-FZN-BER-001,2026-09-30,production_issue,-300,kg,ISSUE-DOC-001
+ISS-002,SKU-FZN-MAN-002,2026-09-30,production_issue,-80,kg,ISSUE-DOC-002
+ISS-003,SKU-APL-JCE-003,2026-09-30,production_issue,-100,kg,ISSUE-DOC-003
+ISS-004,SKU-PLS-TOM-004,2026-09-30,production_issue,-120,kg,ISSUE-DOC-004
+ISS-005,SKU-OIL-SUN-005,2026-09-30,production_issue,-25,L,ISSUE-DOC-005
+ISS-006,SKU-FLU-WHT-006,2026-09-30,production_issue,-100,kg,ISSUE-DOC-006
+ISS-007,SKU-SGR-WHT-007,2026-09-30,production_issue,-500,kg,ISSUE-DOC-007
+ISS-008,SKU-CHS-SAU-008,2026-09-30,production_issue,-50,kg,ISSUE-DOC-008

@@ -1,0 +1,6 @@
+check,actual,expected,result
+Receipt partition equals source,20.0,20.0,PASS
+Reporting summary equals detail,17.0,17.0,PASS
+Canonical source lines,17.0,17.0,PASS
+Eligible receipt value (NZD),7445.6,7445.6,PASS
+Post-replay ambiguous receipts,1.0,1.0,PASS

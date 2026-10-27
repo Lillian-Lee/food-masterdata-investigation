@@ -1,0 +1,594 @@
+<!doctype html><html lang="en-NZ"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Food Supply Chain Investigation Case Study</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f4f5f7;color:#17243b;font:16px/1.75 "Segoe UI","Arial",sans-serif}header,main,footer{max-width:1240px;margin:auto;padding:40px 36px}header{padding-top:64px}.eyebrow{font-size:12px;letter-spacing:3px;color:#526786}h1{font-size:42px;line-height:1.3;margin:14px 0}header p{color:#53647c}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}.stats div{background:#fff;border-top:3px solid #3051a0;padding:18px 24px;font-size:14px}.stats b{display:block;font-size:32px;font-weight:600}nav{position:sticky;top:0;background:#17243b;display:flex;justify-content:center;gap:24px;padding:14px;z-index:2;flex-wrap:wrap}nav a{color:#fff;text-decoration:none;font-size:14px}section{background:#fff;border:1px solid #e0e5ed;border-radius:8px;padding:28px;margin-bottom:24px;scroll-margin-top:90px}.step{font-size:13px;letter-spacing:2px;color:#536995}h2{font-size:25px;margin:4px 0 16px}h3{margin-top:28px;font-size:19px}.lead{font-size:21px;max-width:900px}.scroll{overflow:auto;margin:20px 0;max-height:520px}table{border-collapse:collapse;width:100%;font-size:13px;text-align:left}th{background:#edf1f7;color:#233b61;font-weight:600;position:sticky;top:0}th,td{padding:12px 14px;border-bottom:1px solid #e3e8ef;min-width:110px;max-width:360px;overflow-wrap:anywhere;vertical-align:top}tr:nth-child(even){background:#fafbfe}footer{font-size:13px;color:#61708a;padding-top:0}a{color:#254b9a}@media(max-width:700px){header,main,footer{padding:24px 16px}h1{font-size:30px}.stats{grid-template-columns:repeat(2,1fr)}nav{position:static;gap:12px}section{padding:18px}}@media print{nav{display:none}body{background:white}section{break-inside:avoid}.scroll{max-height:none}th{position:static}}</style><header><div class="eyebrow">SUPPLY CHAIN INVESTIGATION</div><h1>September receipts: correcting pack sizes and units</h1><p>Food supply chain master data and inventory investigation. Synthetic case study.</p><div class="stats"><div><b>20</b>Imported receipt rows</div><div><b>17</b>Receipts cleared for reporting</div><div><b>2</b>Receipts held for review</div><div><b>5</b>Open actions</div></div></header><nav aria-label="Case study sections"><a href="#s1">1. Business problem</a><a href="#s2">2. Records reviewed</a><a href="#s3">3. Findings and impact</a><a href="#s4">4. Decisions</a><a href="#s5">5. Checks after correction</a><a href="#s6">6. Outstanding actions</a></nav><main><section id="s1"><div class="step">01</div><h2>Business problem</h2><p class="lead">A blueberry pack-size change and a missing juice conversion left the September stock figures incomplete.</p><p>This case checks the receipts for one warehouse and eight SKUs, corrects the quantities supported by supplier specifications, and compares them with physical stock counts. The review date is 2 October 2026, ahead of production on 3 October.</p></section><section id="s2"><div class="step">02</div><h2>Records reviewed</h2><p>The review uses 20 receipt rows, opening and closing counts for eight SKUs, eight production issue records and eight material requirements. One receipt row repeats an earlier import. The source document line identifies the duplicate, while the batch reference identifies the stock received.</p><p>REP-001 supports the new 12 kg blueberry case. DENS-004 supplies the juice conversion of 0.95 kg/L. These specifications and all other records are fictional. Amounts use assumed standard costs in NZD, excluding GST.</p><div class="scroll"><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>SKU</th>
+      <th>Product</th>
+      <th>Base unit</th>
+      <th>Standard cost (NZD/base unit)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SKU-FZN-BER-001</td>
+      <td>Frozen Blueberries</td>
+      <td>kg</td>
+      <td>8.50</td>
+    </tr>
+    <tr>
+      <td>SKU-FZN-MAN-002</td>
+      <td>Frozen Mango Chunks</td>
+      <td>kg</td>
+      <td>6.00</td>
+    </tr>
+    <tr>
+      <td>SKU-APL-JCE-003</td>
+      <td>Apple Juice Concentrate</td>
+      <td>kg</td>
+      <td>3.20</td>
+    </tr>
+    <tr>
+      <td>SKU-PLS-TOM-004</td>
+      <td>Tomato Passata</td>
+      <td>kg</td>
+      <td>2.80</td>
+    </tr>
+    <tr>
+      <td>SKU-OIL-SUN-005</td>
+      <td>Sunflower Oil</td>
+      <td>L</td>
+      <td>4.50</td>
+    </tr>
+    <tr>
+      <td>SKU-FLU-WHT-006</td>
+      <td>Wheat Flour</td>
+      <td>kg</td>
+      <td>1.60</td>
+    </tr>
+    <tr>
+      <td>SKU-SGR-WHT-007</td>
+      <td>White Sugar</td>
+      <td>kg</td>
+      <td>1.40</td>
+    </tr>
+    <tr>
+      <td>SKU-CHS-SAU-008</td>
+      <td>Cheese Sauce Base</td>
+      <td>kg</td>
+      <td>5.00</td>
+    </tr>
+  </tbody>
+</table></div></section><section id="s3"><div class="step">03</div><h2>Findings and impact</h2><p>The revised case size adds 74 kg to blueberry receipts. The approved juice conversion allows another 156.75 kg to enter the stock report. The table also records the duplicate import, held receipts and remaining shortages. Some amounts overlap, so they should not be added together as savings.</p><div class="scroll"><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Case</th>
+      <th>Issue type</th>
+      <th>Affected SKUs</th>
+      <th>Batches</th>
+      <th>Impact quantity</th>
+      <th>Base unit</th>
+      <th>Amount (NZD)</th>
+      <th>Possible value, low (NZD)</th>
+      <th>Possible value, high (NZD)</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CASE-001</td>
+      <td>Pack quantity correction</td>
+      <td>SKU-FZN-BER-001</td>
+      <td>B-0901; B-0907; B-0919</td>
+      <td>74.00</td>
+      <td>kg</td>
+      <td>629.00</td>
+      <td>Pending</td>
+      <td>Pending</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>CASE-002</td>
+      <td>Approved unit conversion</td>
+      <td>SKU-APL-JCE-003</td>
+      <td>B-0903; B-0914; B-0921</td>
+      <td>156.75</td>
+      <td>kg</td>
+      <td>501.60</td>
+      <td>Pending</td>
+      <td>Pending</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>CASE-003</td>
+      <td>Duplicate import excluded</td>
+      <td>SKU-FZN-BER-001</td>
+      <td>B-0907</td>
+      <td>144.00</td>
+      <td>kg</td>
+      <td>1,224.00</td>
+      <td>Pending</td>
+      <td>Pending</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>CASE-004</td>
+      <td>Late posting</td>
+      <td>SKU-APL-JCE-003</td>
+      <td>B-0914</td>
+      <td>57.00</td>
+      <td>kg</td>
+      <td>182.40</td>
+      <td>Pending</td>
+      <td>Pending</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>CASE-006</td>
+      <td>Ambiguous mapping</td>
+      <td>SKU-FLU-WHT-006; SKU-FZN-BER-001</td>
+      <td>B-0923</td>
+      <td>25.00</td>
+      <td>kg</td>
+      <td>Pending</td>
+      <td>40.00</td>
+      <td>212.50</td>
+      <td>Open</td>
+    </tr>
+    <tr>
+      <td>CASE-005</td>
+      <td>Expired mapping</td>
+      <td>SKU-FZN-BER-001</td>
+      <td>B-0927</td>
+      <td>40.00</td>
+      <td>kg</td>
+      <td>Pending</td>
+      <td>340.00</td>
+      <td>340.00</td>
+      <td>Open</td>
+    </tr>
+    <tr>
+      <td>CASE-007</td>
+      <td>Residual inventory variance</td>
+      <td>SKU-FZN-MAN-002</td>
+      <td>Pending: SKU-level counts; batch attribution unconfirmed</td>
+      <td>-3.00</td>
+      <td>kg</td>
+      <td>-18.00</td>
+      <td>Pending</td>
+      <td>Pending</td>
+      <td>Open</td>
+    </tr>
+    <tr>
+      <td>CASE-020</td>
+      <td>Production material risk</td>
+      <td>SKU-FZN-BER-001</td>
+      <td>Not allocated: SKU-level production requirement</td>
+      <td>16.00</td>
+      <td>kg</td>
+      <td>136.00</td>
+      <td>Pending</td>
+      <td>Pending</td>
+      <td>Open</td>
+    </tr>
+    <tr>
+      <td>CASE-021</td>
+      <td>Production material risk</td>
+      <td>SKU-APL-JCE-003</td>
+      <td>Not allocated: SKU-level production requirement</td>
+      <td>13.25</td>
+      <td>kg</td>
+      <td>42.40</td>
+      <td>Pending</td>
+      <td>Pending</td>
+      <td>Open</td>
+    </tr>
+  </tbody>
+</table></div><h3>Inventory reconciliation</h3><p>Expected closing stock is opening stock plus cleared receipts, less production usage. Comparing this with the closing count leaves a 3 kg mango shortage to investigate. Held receipts are excluded from available stock.</p><div class="scroll"><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>SKU</th>
+      <th>Base unit</th>
+      <th>Opening quantity</th>
+      <th>Eligible receipts</th>
+      <th>Production usage (outflows)</th>
+      <th>Expected closing</th>
+      <th>Independent count</th>
+      <th>Count variance</th>
+      <th>Variance (NZD)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SKU-FZN-BER-001</td>
+      <td>kg</td>
+      <td>500.00</td>
+      <td>444.00</td>
+      <td>-300.00</td>
+      <td>644.00</td>
+      <td>644.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>SKU-FZN-MAN-002</td>
+      <td>kg</td>
+      <td>200.00</td>
+      <td>115.00</td>
+      <td>-80.00</td>
+      <td>235.00</td>
+      <td>232.00</td>
+      <td>-3.00</td>
+      <td>-18.00</td>
+    </tr>
+    <tr>
+      <td>SKU-APL-JCE-003</td>
+      <td>kg</td>
+      <td>100.00</td>
+      <td>156.75</td>
+      <td>-100.00</td>
+      <td>156.75</td>
+      <td>156.75</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>SKU-PLS-TOM-004</td>
+      <td>kg</td>
+      <td>300.00</td>
+      <td>195.00</td>
+      <td>-120.00</td>
+      <td>375.00</td>
+      <td>375.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>SKU-OIL-SUN-005</td>
+      <td>L</td>
+      <td>100.00</td>
+      <td>30.00</td>
+      <td>-25.00</td>
+      <td>105.00</td>
+      <td>105.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>SKU-FLU-WHT-006</td>
+      <td>kg</td>
+      <td>200.00</td>
+      <td>170.00</td>
+      <td>-100.00</td>
+      <td>270.00</td>
+      <td>270.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>SKU-SGR-WHT-007</td>
+      <td>kg</td>
+      <td>500.00</td>
+      <td>780.00</td>
+      <td>-500.00</td>
+      <td>780.00</td>
+      <td>780.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>SKU-CHS-SAU-008</td>
+      <td>kg</td>
+      <td>100.00</td>
+      <td>87.00</td>
+      <td>-50.00</td>
+      <td>137.00</td>
+      <td>137.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table></div><h3>Materials required for 3 October</h3><p>With no further deliveries assumed, blueberries are 16 kg short and juice is 13.25 kg short. Availability uses the lower of the calculated stock balance and the physical count. The amounts below value the missing material.</p><div class="scroll"><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Production order</th>
+      <th>SKU</th>
+      <th>Base unit</th>
+      <th>Available stock</th>
+      <th>Required quantity</th>
+      <th>Material shortfall</th>
+      <th>Material shortfall value (NZD)</th>
+      <th>Material readiness</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PLAN-001</td>
+      <td>SKU-FZN-BER-001</td>
+      <td>kg</td>
+      <td>644.00</td>
+      <td>660.00</td>
+      <td>16.00</td>
+      <td>136.00</td>
+      <td>Material shortfall</td>
+    </tr>
+    <tr>
+      <td>PLAN-002</td>
+      <td>SKU-FZN-MAN-002</td>
+      <td>kg</td>
+      <td>232.00</td>
+      <td>220.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>Covered</td>
+    </tr>
+    <tr>
+      <td>PLAN-003</td>
+      <td>SKU-APL-JCE-003</td>
+      <td>kg</td>
+      <td>156.75</td>
+      <td>170.00</td>
+      <td>13.25</td>
+      <td>42.40</td>
+      <td>Material shortfall</td>
+    </tr>
+    <tr>
+      <td>PLAN-004</td>
+      <td>SKU-PLS-TOM-004</td>
+      <td>kg</td>
+      <td>375.00</td>
+      <td>300.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>Covered</td>
+    </tr>
+    <tr>
+      <td>PLAN-005</td>
+      <td>SKU-OIL-SUN-005</td>
+      <td>L</td>
+      <td>105.00</td>
+      <td>80.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>Covered</td>
+    </tr>
+    <tr>
+      <td>PLAN-006</td>
+      <td>SKU-FLU-WHT-006</td>
+      <td>kg</td>
+      <td>270.00</td>
+      <td>200.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>Covered</td>
+    </tr>
+    <tr>
+      <td>PLAN-007</td>
+      <td>SKU-SGR-WHT-007</td>
+      <td>kg</td>
+      <td>780.00</td>
+      <td>600.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>Covered</td>
+    </tr>
+    <tr>
+      <td>PLAN-008</td>
+      <td>SKU-CHS-SAU-008</td>
+      <td>kg</td>
+      <td>137.00</td>
+      <td>100.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>Covered</td>
+    </tr>
+  </tbody>
+</table></div></section><section id="s4"><div class="step">04</div><h2>Decisions</h2><p>The pack-size and density changes were approved on 1 October for September receipts. The legacy mapping remained expired, and the disputed product code was left unresolved. The decision log records the approver, date, reason and supporting document.</p><div class="scroll"><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Change request</th>
+      <th>Decision</th>
+      <th>Approver</th>
+      <th>Decision time (UTC)</th>
+      <th>Reason</th>
+      <th>Evidence reference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CR-001</td>
+      <td>Approve</td>
+      <td>master-data-lead@example.com</td>
+      <td>2026-10-01T09:00:00+00:00</td>
+      <td>Supplier confirmed 12kg per case</td>
+      <td>REP-001</td>
+    </tr>
+    <tr>
+      <td>CR-002</td>
+      <td>Approve</td>
+      <td>master-data-lead@example.com</td>
+      <td>2026-10-01T10:00:00+00:00</td>
+      <td>Retirement confirmed; late receipt remains on hold</td>
+      <td>TERM-002</td>
+    </tr>
+    <tr>
+      <td>CR-003</td>
+      <td>Reject</td>
+      <td>master-data-lead@example.com</td>
+      <td>2026-10-01T11:00:00+00:00</td>
+      <td>Rejected: disputed SKU identity requires supplier clarification</td>
+      <td>DIS-003</td>
+    </tr>
+    <tr>
+      <td>CR-004</td>
+      <td>Approve</td>
+      <td>master-data-lead@example.com</td>
+      <td>2026-10-01T12:00:00+00:00</td>
+      <td>Approved synthetic density specification: 0.95 kg per litre</td>
+      <td>DENS-004</td>
+    </tr>
+  </tbody>
+</table></div></section><section id="s5"><div class="step">05</div><h2>Checks after correction</h2><p>The original and corrected mappings were run through the same calculations. Receipts cleared for reporting increased from 14 to 17. Blueberries and juice now agree with the counts. The mango shortage remains, with no adjustment entered to remove it.</p><div class="scroll"><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Metric</th>
+      <th>Before correction</th>
+      <th>After correction</th>
+      <th>Change</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Imported receipt rows</td>
+      <td>20.00</td>
+      <td>20.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>Duplicate imports excluded</td>
+      <td>1.00</td>
+      <td>1.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <td>Receipts cleared for reporting</td>
+      <td>14.00</td>
+      <td>17.00</td>
+      <td>3.00</td>
+    </tr>
+    <tr>
+      <td>Receipts held for review</td>
+      <td>5.00</td>
+      <td>2.00</td>
+      <td>-3.00</td>
+    </tr>
+    <tr>
+      <td>Receipts awaiting a conversion factor</td>
+      <td>3.00</td>
+      <td>0.00</td>
+      <td>-3.00</td>
+    </tr>
+    <tr>
+      <td>Eligible late postings</td>
+      <td>0.00</td>
+      <td>1.00</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td>Eligible receipt value (NZD)</td>
+      <td>6,315.00</td>
+      <td>7,445.60</td>
+      <td>1,130.60</td>
+    </tr>
+  </tbody>
+</table></div><div class="scroll"><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Verification check</th>
+      <th>Actual</th>
+      <th>Expected</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>All imported rows accounted for</td>
+      <td>20.00</td>
+      <td>20.00</td>
+      <td>PASS</td>
+    </tr>
+    <tr>
+      <td>Reporting count agrees with receipt detail</td>
+      <td>17.00</td>
+      <td>17.00</td>
+      <td>PASS</td>
+    </tr>
+    <tr>
+      <td>Unique source document lines in cleared receipts</td>
+      <td>17.00</td>
+      <td>17.00</td>
+      <td>PASS</td>
+    </tr>
+    <tr>
+      <td>Receipt value agrees with the summary (NZD)</td>
+      <td>7,445.60</td>
+      <td>7,445.60</td>
+      <td>PASS</td>
+    </tr>
+    <tr>
+      <td>Product-code conflicts remaining after correction</td>
+      <td>1.00</td>
+      <td>1.00</td>
+      <td>PASS</td>
+    </tr>
+  </tbody>
+</table></div></section><section id="s6"><div class="step">06</div><h2>Outstanding actions</h2><p>Five actions remain open: confirm two held receipts, investigate the mango shortage, and resolve two material shortfalls. Owners and deadlines are shown below, assessed as of 2 October. A receipt stays on hold until its outstanding questions are resolved.</p><div class="scroll"><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Case</th>
+      <th>Issue type</th>
+      <th>Affected SKUs</th>
+      <th>Receipts</th>
+      <th>Owner</th>
+      <th>Due date</th>
+      <th>Deadline status</th>
+      <th>Handling decision</th>
+      <th>Latest check</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CASE-006</td>
+      <td>Ambiguous mapping</td>
+      <td>SKU-FLU-WHT-006; SKU-FZN-BER-001</td>
+      <td>RCV-0012</td>
+      <td>master-data-team@example.com</td>
+      <td>2026-10-05</td>
+      <td>Scheduled</td>
+      <td>CR-003 rejected; obtain written SKU confirmation</td>
+      <td>Still excluded from eligible receipts and available counts; identity remains unconfirmed</td>
+    </tr>
+    <tr>
+      <td>CASE-005</td>
+      <td>Expired mapping</td>
+      <td>SKU-FZN-BER-001</td>
+      <td>RCV-0014</td>
+      <td>procurement@example.com</td>
+      <td>2026-10-02</td>
+      <td>Due today</td>
+      <td>CR-002 retirement confirmed; obtain valid delivery evidence or arrange return</td>
+      <td>Still excluded from eligible receipts and available counts; identity remains unconfirmed</td>
+    </tr>
+    <tr>
+      <td>CASE-007</td>
+      <td>Residual inventory variance</td>
+      <td>SKU-FZN-MAN-002</td>
+      <td></td>
+      <td>warehouse-supervisor@example.com</td>
+      <td>2026-10-02</td>
+      <td>Due today</td>
+      <td>Recount stock and verify production issue documents before adjustment</td>
+      <td>Residual persists after replay; SKU-level count cannot attribute the shortage to a batch</td>
+    </tr>
+    <tr>
+      <td>CASE-020</td>
+      <td>Production material risk</td>
+      <td>SKU-FZN-BER-001</td>
+      <td></td>
+      <td>production-planner@example.com</td>
+      <td>2026-10-02</td>
+      <td>Due today</td>
+      <td>Confirm supply or reschedule order</td>
+      <td>Estimated material gap for 3 October; no lost production or sales value assumed</td>
+    </tr>
+    <tr>
+      <td>CASE-021</td>
+      <td>Production material risk</td>
+      <td>SKU-APL-JCE-003</td>
+      <td></td>
+      <td>production-planner@example.com</td>
+      <td>2026-10-02</td>
+      <td>Due today</td>
+      <td>Confirm supply or reschedule order</td>
+      <td>Estimated material gap for 3 October; no lost production or sales value assumed</td>
+    </tr>
+  </tbody>
+</table></div></section></main><footer>All data, costs, demand, evidence references and approvers are fictional. Figures reflect the review on 2 October 2026. Rerun the project after changing the source records.<br><a href="investigation_summary.md">Detailed investigation report</a> · <a href="exception_report.xlsx">Excel evidence workbook</a></footer></html>

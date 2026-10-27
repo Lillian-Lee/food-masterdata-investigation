@@ -20,14 +20,17 @@ from pathlib import Path
 import pandas as pd
 
 from pipeline_core import PROCESSED_DIR, load_raw_data
-from run_investigation import run
+from run_investigation import investigate
+from approval_workflow import apply_approvals
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 
 
 def validate() -> tuple[int, int, list[str]]:
     """Run pipeline, check all labeled cases. Returns (passed, total, failures)."""
-    result = run()
+    raw = load_raw_data()
+    mapping, _ = apply_approvals(raw)
+    result = investigate(raw, mapping)
     summary = result.quality_summary
 
     cases = pd.read_csv(BASE_DIR / "docs" / "labeled_cases.csv")
@@ -37,10 +40,9 @@ def validate() -> tuple[int, int, list[str]]:
 
     # Duplicate check needs the raw flagged receipts
     raw = load_raw_data()
-    flagged = raw["receipts"].copy()
-    dup_mask = flagged.duplicated(
-        subset=["supplier", "supplier_item_code", "batch_ref"], keep="first")
-    dup_ids = set(flagged.loc[dup_mask, "receipt_id"])
+    from pipeline_core import detect_duplicate_receipts
+    _, duplicate_ids = detect_duplicate_receipts(raw["receipts"])
+    dup_ids = set(duplicate_ids)
 
     failures: list[str] = []
     passed = 0
@@ -59,7 +61,7 @@ def validate() -> tuple[int, int, list[str]]:
             row = result.cleansed_receipts.set_index("receipt_id").loc[rid]
             ok = rid in resolved_ids and bool(row["near_boundary"])
         elif expected == "resolved_late_flag":
-            ok = rid in resolved_ids
+            ok = rid in resolved_ids and bool(result.cleansed_receipts.set_index("receipt_id").loc[rid, "late_posting"])
         elif expected == "routed_to_review_expired":
             ok = review_map.get(rid) == "expired_mapping"
         elif expected == "routed_to_review_ambiguous":

@@ -1,0 +1,8 @@
+metric,before,after,delta
+total_receipts,20.0,20.0,0.0
+duplicates_flagged,1.0,1.0,0.0
+reporting_ready,14.0,17.0,3.0
+routed_to_review,5.0,2.0,-3.0
+unapproved_conversions,3.0,0.0,-3.0
+late_postings,0.0,1.0,1.0
+eligible_receipt_value_nzd,6315.0,7445.6,1130.6

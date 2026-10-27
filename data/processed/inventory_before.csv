@@ -1,0 +1,9 @@
+sku,product,base_uom,opening_qty,eligible_receipts_qty,net_movements_qty,expected_closing_qty,counted_closing_qty,variance_qty,unit_cost_nzd,variance_nzd,unresolved_candidate_receipts,reconciliation_status,evidence_refs,receipt_ids,batch_refs
+SKU-FZN-BER-001,Frozen Blueberries,kg,500.0,370.0,-300.0,570.0,644.0,74.0,8.5,629.0,2,variance_to_investigate,COUNT-OPEN-01; COUNT-CLOSE-01; ISSUE-DOC-001,RCV-0001; RCV-0004; RCV-0010,B-0901; B-0907; B-0919
+SKU-FZN-MAN-002,Frozen Mango Chunks,kg,200.0,115.0,-80.0,235.0,232.0,-3.0,6.0,-18.0,0,variance_to_investigate,COUNT-OPEN-02; COUNT-CLOSE-02; ISSUE-DOC-002,RCV-0009; RCV-0017,B-0904; B-0917
+SKU-APL-JCE-003,Apple Juice Concentrate,kg,100.0,0.0,-100.0,0.0,156.75,156.75,3.2,501.6,3,variance_to_investigate,COUNT-OPEN-03; COUNT-CLOSE-03; ISSUE-DOC-003,,
+SKU-PLS-TOM-004,Tomato Passata,kg,300.0,195.0,-120.0,375.0,375.0,0.0,2.8,0.0,0,matched_eligible_stock,COUNT-OPEN-04; COUNT-CLOSE-04; ISSUE-DOC-004,RCV-0005; RCV-0020,B-0909; B-0920
+SKU-OIL-SUN-005,Sunflower Oil,L,100.0,30.0,-25.0,105.0,105.0,0.0,4.5,0.0,0,matched_eligible_stock,COUNT-OPEN-05; COUNT-CLOSE-05; ISSUE-DOC-005,RCV-0006,B-0911
+SKU-FLU-WHT-006,Wheat Flour,kg,200.0,170.0,-100.0,270.0,270.0,0.0,1.6,0.0,1,matched_eligible_stock,COUNT-OPEN-06; COUNT-CLOSE-06; ISSUE-DOC-006,RCV-0003; RCV-0013,B-0905; B-0925
+SKU-SGR-WHT-007,White Sugar,kg,500.0,780.0,-500.0,780.0,780.0,0.0,1.4,0.0,0,matched_eligible_stock,COUNT-OPEN-07; COUNT-CLOSE-07; ISSUE-DOC-007,RCV-0007; RCV-0018,B-0908; B-0913
+SKU-CHS-SAU-008,Cheese Sauce Base,kg,100.0,87.0,-50.0,137.0,137.0,0.0,5.0,0.0,0,matched_eligible_stock,COUNT-OPEN-08; COUNT-CLOSE-08; ISSUE-DOC-008,RCV-0008; RCV-0019,B-0910; B-0915

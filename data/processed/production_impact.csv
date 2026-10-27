@@ -1,0 +1,9 @@
+production_order,sku,base_uom,required_date,required_qty_base,conservative_available_qty,shortfall_qty,shortfall_value_nzd,risk,owner,action_due,action,evidence_ref
+PLAN-001,SKU-FZN-BER-001,kg,2026-10-03,660.0,644.0,16.0,136.0,material_shortfall,production-planner@example.com,2026-10-02,Confirm supply or reschedule order,SYNTHETIC-PLAN-OCT03
+PLAN-002,SKU-FZN-MAN-002,kg,2026-10-03,220.0,232.0,0.0,0.0,covered,production-planner@example.com,2026-10-02,Monitor scheduled demand,SYNTHETIC-PLAN-OCT03
+PLAN-003,SKU-APL-JCE-003,kg,2026-10-03,170.0,156.75,13.25,42.4,material_shortfall,production-planner@example.com,2026-10-02,Confirm supply or reschedule order,SYNTHETIC-PLAN-OCT03
+PLAN-004,SKU-PLS-TOM-004,kg,2026-10-03,300.0,375.0,0.0,0.0,covered,production-planner@example.com,2026-10-02,Monitor scheduled demand,SYNTHETIC-PLAN-OCT03
+PLAN-005,SKU-OIL-SUN-005,L,2026-10-03,80.0,105.0,0.0,0.0,covered,production-planner@example.com,2026-10-02,Monitor scheduled demand,SYNTHETIC-PLAN-OCT03
+PLAN-006,SKU-FLU-WHT-006,kg,2026-10-03,200.0,270.0,0.0,0.0,covered,production-planner@example.com,2026-10-02,Monitor scheduled demand,SYNTHETIC-PLAN-OCT03
+PLAN-007,SKU-SGR-WHT-007,kg,2026-10-03,600.0,780.0,0.0,0.0,covered,production-planner@example.com,2026-10-02,Monitor scheduled demand,SYNTHETIC-PLAN-OCT03
+PLAN-008,SKU-CHS-SAU-008,kg,2026-10-03,100.0,137.0,0.0,0.0,covered,production-planner@example.com,2026-10-02,Monitor scheduled demand,SYNTHETIC-PLAN-OCT03

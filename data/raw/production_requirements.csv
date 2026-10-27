@@ -1,0 +1,9 @@
+production_order,sku,required_date,required_qty_base,uom,owner,evidence_ref
+PLAN-001,SKU-FZN-BER-001,2026-10-03,660,kg,production-planner@example.com,SYNTHETIC-PLAN-OCT03
+PLAN-002,SKU-FZN-MAN-002,2026-10-03,220,kg,production-planner@example.com,SYNTHETIC-PLAN-OCT03
+PLAN-003,SKU-APL-JCE-003,2026-10-03,170,kg,production-planner@example.com,SYNTHETIC-PLAN-OCT03
+PLAN-004,SKU-PLS-TOM-004,2026-10-03,300,kg,production-planner@example.com,SYNTHETIC-PLAN-OCT03
+PLAN-005,SKU-OIL-SUN-005,2026-10-03,80,L,production-planner@example.com,SYNTHETIC-PLAN-OCT03
+PLAN-006,SKU-FLU-WHT-006,2026-10-03,200,kg,production-planner@example.com,SYNTHETIC-PLAN-OCT03
+PLAN-007,SKU-SGR-WHT-007,2026-10-03,600,kg,production-planner@example.com,SYNTHETIC-PLAN-OCT03
+PLAN-008,SKU-CHS-SAU-008,2026-10-03,100,kg,production-planner@example.com,SYNTHETIC-PLAN-OCT03

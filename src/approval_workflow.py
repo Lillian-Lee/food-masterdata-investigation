@@ -1,141 +1,111 @@
-"""
-Approval Workflow & Audit Trail — Food Manufacturing Master Data Case Study
-==========================================================================
-Simulates the manual decision process for change requests:
-  - approve / reject actions with approver identity, reason, timestamp
-  - Full audit log appended to data/processed/decision_log.csv
-  - Approved mapping changes are applied to a working copy of the mapping
-    table (never mutate raw source data)
-  - Before/after snapshots enable impact traceability
-
-Idempotent: re-running with the same decisions does not duplicate log
-entries (decision_id is deterministic per cr_id + action).
-
-Run:  python src/approval_workflow.py
-"""
-
-from __future__ import annotations
-
+"""Replayable simulated decisions. Reversal appends evidence; it never deletes logs."""
+import argparse
 import hashlib
-from datetime import datetime, timezone
-from pathlib import Path
-
+from datetime import timedelta
 import pandas as pd
-
-from pipeline_core import RAW_DIR, PROCESSED_DIR, load_raw_data
+from pipeline_core import load_raw_data, PROCESSED_DIR
 
 DECISION_LOG = PROCESSED_DIR / "decision_log.csv"
 APPROVED_MAP = PROCESSED_DIR / "mapping_with_approved_changes.csv"
 
 
-def _decision_id(cr_id: str, action: str, ts: str) -> str:
-    """Deterministic ID so re-runs never duplicate audit entries."""
-    raw = f"{cr_id}|{action}|{ts}"
-    return "DEC-" + hashlib.sha1(raw.encode()).hexdigest()[:10].upper()
+def _decision_id(cr_id,action,ts):
+    return "DEC-"+hashlib.sha256(f"{cr_id}|{action}|{ts}".encode()).hexdigest()[:12].upper()
 
 
-def make_decisions() -> list[dict]:
-    """
-    Simulated analyst decisions for the 4 pre-loaded change requests.
-    In a real workflow these would come from a UI / ticketing system.
-    """
-    ts = datetime.now(timezone.utc).isoformat()
-    return [
-        {"cr_id": "CR-001", "action": "approve",
-         "approver": "master-data-lead@example.com",
-         "reason": "Supplier re-pack confirmed by procurement; apply 12kg case from 2026-09-01",
-         "decision_ts": "2026-10-01T09:00:00+00:00"},
-        {"cr_id": "CR-002", "action": "approve",
-         "approver": "master-data-lead@example.com",
-         "reason": "Legacy supplier contract ended; retire mapping LF-BER-OLD",
-         "decision_ts": "2026-10-01T09:30:00+00:00"},
-        {"cr_id": "CR-003", "action": "reject",
-         "approver": "master-data-lead@example.com",
-         "reason": "Ambiguous code NF-AMB-01 disputed by two teams; needs supplier clarification before any change",
-         "decision_ts": "2026-10-01T10:00:00+00:00"},
-        {"cr_id": "CR-004", "action": "approve",
-         "approver": "warehouse-supervisor@example.com",
-         "reason": "UoM conversion L->kg approved with density factor 0.95 for apple juice concentrate",
-         "decision_ts": "2026-10-01T10:30:00+00:00"},
-    ]
+def make_decisions():
+    reasons = ["Supplier confirmed 12kg per case", "Retirement confirmed; late receipt remains on hold",
+               "Rejected: disputed SKU identity requires supplier clarification",
+               "Approved synthetic density specification: 0.95 kg per litre"]
+    return [dict(cr_id=f"CR-{i:03d}",action="reject" if i==3 else "approve",
+        approver="master-data-lead@example.com",reason=reasons[i-1],
+        decision_timestamp=f"2026-10-01T{8+i:02d}:00:00+00:00")
+        for i in range(1,5)]
 
 
-def apply_approvals() -> tuple[pd.DataFrame, pd.DataFrame]:
-    """
-    Apply approved change requests to a working copy of the mapping table.
-    Returns (updated_mapping, decision_log_df).
-    """
-    raw = load_raw_data()
+def overlap_pairs(mapping):
+    pairs = set()
+    for _,g in mapping.groupby(["supplier","supplier_item_code"]):
+        records = g.to_dict("records")
+        for i,a in enumerate(records):
+            for b in records[i+1:]:
+                if max(a["effective_from"],b["effective_from"])<=min(a["effective_to"],b["effective_to"]):
+                    pairs.add(tuple(sorted([a["mapping_id"],b["mapping_id"]])))
+    return pairs
+
+
+def apply_approvals(raw=None, decisions=None):
+    raw = raw if raw is not None else load_raw_data()
     mapping = raw["mapping"].copy()
-    cr = raw["change_requests"]
-
-    decisions = make_decisions()
-    log_rows: list[dict] = []
-    ts_now = datetime.now(timezone.utc).isoformat()
-
-    for d in decisions:
-        cr_row = cr[cr["cr_id"] == d["cr_id"]].iloc[0]
-        ts = d["decision_ts"]
-        decision = {
-            "decision_id": _decision_id(d["cr_id"], d["action"], ts),
-            "cr_id": d["cr_id"],
-            "action": d["action"],
-            "approver": d["approver"],
-            "reason": d["reason"],
-            "decision_timestamp": ts,
-            "supplier": cr_row["supplier"],
-            "supplier_item_code": cr_row["supplier_item_code"],
-            "proposed_sku": cr_row["proposed_sku"],
-            "cr_type": cr_row["cr_type"],
-        }
-        log_rows.append(decision)
-
-        if d["action"] != "approve":
+    decisions = pd.DataFrame(make_decisions()) if decisions is None else pd.DataFrame(decisions).copy()
+    logs = []
+    crs = raw["change_requests"].set_index("cr_id")
+    for _,d in decisions.iterrows():
+        if d["cr_id"] not in crs.index or d["action"] not in ("approve","reject","revoke"):
+            raise ValueError("Unknown change request or decision action")
+        cr = crs.loc[d["cr_id"]]
+        logs.append(dict(d, decision_id=_decision_id(d["cr_id"],d["action"],d["decision_timestamp"]),
+            supplier=cr["supplier"],supplier_item_code=cr["supplier_item_code"],
+            proposed_sku=cr["proposed_sku"],cr_type=cr["cr_type"],evidence_ref=cr["evidence_ref"]))
+    log = pd.DataFrame(logs)
+    if log.empty:
+        return mapping, log
+    latest = log.sort_values(["decision_timestamp","decision_id"]).drop_duplicates("cr_id",keep="last")
+    existing_overlaps = overlap_pairs(mapping)
+    for _,d in latest.iterrows():
+        if d["action"]!="approve":
             continue
-
-        if d["cr_id"] == "CR-001":
-            # Re-pack: close old version, insert new version
-            mask = (mapping["supplier_item_code"] == "NF-BER-01") & \
-                   (mapping["effective_to"].astype(str).str.startswith("2099"))
-            if mask.any():
-                idx = mapping.index[mask][0]
-                mapping.loc[idx, "effective_to"] = pd.Timestamp("2026-08-31").date()
-            new_row = {
-                "mapping_id": "MAP-CR001",
-                "supplier": "SUP-NORTHFROST",
-                "supplier_item_code": "NF-BER-10",
-                "sku": "SKU-FZN-BER-001",
-                "effective_from": pd.Timestamp("2026-09-01").date(),
-                "effective_to": pd.Timestamp("2099-12-31").date(),
-                "supplier_uom": "kg",
-                "pack_size_pieces_per_case": 12,
-            }
-            mapping = pd.concat([mapping, pd.DataFrame([new_row])],
-                                 ignore_index=True)
-        elif d["cr_id"] == "CR-002":
-            mask = mapping["supplier_item_code"] == "LF-BER-OLD"
-            mapping.loc[mask, "effective_to"] = pd.Timestamp("2026-07-31").date()
-        elif d["cr_id"] == "CR-004":
-            mask = mapping["supplier_item_code"] == "SC-JCE-20L"
-            mapping.loc[mask, "supplier_uom"] = "L"
-
-    log_df = pd.DataFrame(log_rows)
-    return mapping, log_df
+        cr = crs.loc[d["cr_id"]]
+        mask = (mapping["supplier"]==cr["supplier"]) & (mapping["supplier_item_code"]==cr["supplier_item_code"])
+        if cr["cr_type"]=="retire_mapping":
+            mapping.loc[mask & (mapping["effective_to"]>=cr["effective_from"]),"effective_to"] = cr["effective_from"]-timedelta(days=1)
+            continue
+        if cr["cr_type"] not in ("repack","unit_change"):
+            raise ValueError("Unsupported approval type")
+        if cr["proposed_base_qty_per_case"]<=0 or cr["proposed_conversion_factor"]<=0:
+            raise ValueError("Approved conversion factors must be positive")
+        active = mapping[mask & (mapping["effective_from"]<=cr["effective_from"]) &
+                         (mapping["effective_to"]>=cr["effective_from"])]
+        if len(active)!=1:
+            raise ValueError(f'{d["cr_id"]}: approval requires exactly one baseline version')
+        template = active.iloc[0].to_dict()
+        new_id = "MAP-"+d["cr_id"].replace("-","")
+        new = dict(template,mapping_id=new_id,effective_from=cr["effective_from"],
+            sku=cr["proposed_sku"],base_qty_per_case=cr["proposed_base_qty_per_case"],
+            conversion_factor=cr["proposed_conversion_factor"],approval_cr_id=d["cr_id"])
+        old_index = active.index[0]
+        if template["effective_from"]==cr["effective_from"]:
+            mapping = mapping.drop(old_index)
+        else:
+            mapping.loc[old_index,"effective_to"] = cr["effective_from"]-timedelta(days=1)
+        mapping = pd.concat([mapping,pd.DataFrame([new])],ignore_index=True)
+    if overlap_pairs(mapping)-existing_overlaps:
+        raise ValueError("Approval introduced overlapping mapping versions")
+    return mapping.sort_values("mapping_id").reset_index(drop=True), log.sort_values("decision_timestamp").reset_index(drop=True)
 
 
-def run() -> tuple[pd.DataFrame, pd.DataFrame]:
-    mapping, log_df = apply_approvals()
-    APPROVED_MAP.parent.mkdir(parents=True, exist_ok=True)
-    mapping.to_csv(APPROVED_MAP, index=False)
+def run(revoke=None):
+    PROCESSED_DIR.mkdir(parents=True,exist_ok=True)
+    decisions = pd.DataFrame(make_decisions())
     if DECISION_LOG.exists():
-        existing = pd.read_csv(DECISION_LOG, dtype=str)
-        log_df = pd.concat([existing, log_df], ignore_index=True)
-        log_df = log_df.drop_duplicates(subset=["decision_id"], keep="last")
-    log_df.to_csv(DECISION_LOG, index=False)
-    print(f"Approval workflow complete: {len(log_df)} decisions logged, "
-          f"updated mapping saved")
-    return mapping, log_df
+        old = pd.read_csv(DECISION_LOG)
+        if "decision_timestamp" not in old:
+            raise ValueError("Old ledger schema must be archived before migration")
+        decisions = pd.concat([old,decisions],ignore_index=True)[list(make_decisions()[0])]
+    if revoke:
+        # Fixed case-study review timestamp makes repeated reversals idempotent.
+        decisions = pd.concat([decisions,pd.DataFrame([dict(cr_id=revoke,action="revoke",
+            approver="master-data-lead@example.com",reason="Synthetic reversal requested; replay baseline",
+            decision_timestamp="2026-10-02T12:00:00+00:00")])],ignore_index=True)
+    decisions = decisions.drop_duplicates(["cr_id","action","decision_timestamp"])
+    mapping,log = apply_approvals(decisions=decisions)
+    mapping.to_csv(APPROVED_MAP,index=False)
+    log.to_csv(DECISION_LOG,index=False)
+    print(f"Approval replay: {len(log)} audit events, {len(mapping)} mapping versions")
+    return mapping,log
 
 
-if __name__ == "__main__":
-    run()
+if __name__=="__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--revoke",choices=[f"CR-{i:03d}" for i in range(1,5)])
+    run(parser.parse_args().revoke)
